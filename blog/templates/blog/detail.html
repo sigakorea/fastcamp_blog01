@@ -1,0 +1,36 @@
+{% extends "blog/layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    {{ post.title }}
+                </div>
+                <div class="panel-body">
+                    {{ post.content|linebreaks }}
+                </div>
+                <div class="panel-footer clearfix">
+                    <div class="pull-right">
+                        수정 : {{ post.updated_at }}<br>작성 : {{ post.created_at }}
+                    </div>
+                </div>
+            </div>
+
+            <ul>
+                {% for comment in post.comment_set.all %}
+                    <li>
+                        {{ comment.content }}
+                        <a href="{% url "blog.views.comment_edit" post.pk comment.pk %}">Edit</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <a href="{% url "blog.views.index" %}" class="btn btn-default">글목록</a>
+            <a href="{% url "blog.views.edit" post.pk %}" class="btn btn-info">수정</a>
+            <a href="{% url "blog.views.comment_new" post.pk %}" class="btn btn-success">새 댓글</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
